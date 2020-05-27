@@ -11,10 +11,11 @@
 import UIKit
 import MapKit
 
-class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MKMapViewDelegate {
     
     /* ---- TODO: Create mapView outlet*/
-
+    @IBOutlet weak var mapView: MKMapView!
+    
     
     
     // Store picked image
@@ -22,16 +23,22 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        mapView.delegate = self
+        
+        /* ------ TODO: Set initial location after launching app */
+        let mapCenter = CLLocationCoordinate2D(latitude: 37.783333, longitude: -122.416667)
+        let mapSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+        let region = MKCoordinateRegion(center: mapCenter, span: mapSpan)
+        
+        mapView.setRegion(region, animated: false)
     }
-    
-    
-    /* ------ TODO: Set initial location after launching app */
-    
-    
+        
     
     /* ----- TODO: Instantiate UIImagePicker after camera button tapped */
   
+    @IBAction func onTapCameraBtn(_ sender: Any) {
+        selectPhoto()
+    }
     
     
     /* ----- TODO: Override prepare (for segue) funcion to show Present LocationsViewController */
@@ -74,8 +81,8 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        // Local variable inserted by Swift 4.2 migrator.
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
         // Get the image captured by the UIImagePickerController
         let _ = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage
@@ -85,8 +92,9 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         pickedImage = editedImage
         
         // Dismiss UIImagePickerController to go back to your original view controller
-        dismiss(animated: true, completion: nil)
-        performSegue(withIdentifier: "tagSegue", sender: nil)
+        dismiss(animated: true) {
+            self.performSegue(withIdentifier: "tagSegue", sender: nil)
+        }
         
     }
 
