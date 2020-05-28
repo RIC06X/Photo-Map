@@ -11,7 +11,7 @@
 import UIKit
 import MapKit
 
-class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MKMapViewDelegate, LocationsViewControllerDelegate {
+class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationsViewControllerDelegate, MKMapViewDelegate {
     
     /* ---- TODO: Create mapView outlet*/
     @IBOutlet weak var mapView: MKMapView!
@@ -24,10 +24,10 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.delegate = self
-        
+        //mapView.delegate = self
         navigationController?.navigationBar.isHidden = true
         setInitialLocation()
+        mapView.delegate = self
     }
 
     /* ------ TODO: Set initial location after launching app */
@@ -35,7 +35,6 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         let mapCenter = CLLocationCoordinate2D(latitude: 33.6450, longitude: -117.8443)
         let mapSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         let region = MKCoordinateRegion(center: mapCenter, span: mapSpan)
-        
         mapView.setRegion(region, animated: false)
     }
     
@@ -73,21 +72,22 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     /* ----- TODO: Customize mapview to add custom map notations */
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let reuseID = "annotation"
-//
-//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
-//
-//        if (annotationView == nil){
-//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
-//            annotationView!.canShowCallout = true
-//            annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-//        }
-//        let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
-//        imageView.image = pickedImage
-//
-//        return annotationView
-//    }
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let reuseID = "myAnnotationView"
+
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
+        if (annotationView == nil) {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            annotationView!.canShowCallout = true
+            annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+        }
+
+        let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
+        // Add the image you stored from the image picker
+        imageView.image = pickedImage
+
+        return annotationView
+    }
   
     
     // Instantiate Image Picker and set delegate to this view controller
