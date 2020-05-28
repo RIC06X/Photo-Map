@@ -11,10 +11,11 @@
 import UIKit
 import MapKit
 
-class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MKMapViewDelegate {
+class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MKMapViewDelegate, LocationsViewControllerDelegate {
     
     /* ---- TODO: Create mapView outlet*/
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var photoButton: UIButton!
     
     
     
@@ -25,38 +26,69 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         super.viewDidLoad()
         mapView.delegate = self
         
-        /* ------ TODO: Set initial location after launching app */
-        let mapCenter = CLLocationCoordinate2D(latitude: 37.783333, longitude: -122.416667)
+        navigationController?.navigationBar.isHidden = true
+        setInitialLocation()
+    }
+
+    /* ------ TODO: Set initial location after launching app */
+    func setInitialLocation(){
+        let mapCenter = CLLocationCoordinate2D(latitude: 33.6450, longitude: -117.8443)
         let mapSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
         let region = MKCoordinateRegion(center: mapCenter, span: mapSpan)
         
         mapView.setRegion(region, animated: false)
     }
-        
+    
     
     /* ----- TODO: Instantiate UIImagePicker after camera button tapped */
-  
     @IBAction func onTapCameraBtn(_ sender: Any) {
         selectPhoto()
     }
     
     
     /* ----- TODO: Override prepare (for segue) funcion to show Present LocationsViewController */
-    
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let locationViewController = segue.destination as! LocationsViewController
+        locationViewController.delegate = self
+    }
+     
     
     /* ----- TODO: Retrieve coordinates from LocationsViewController   */
-    
+    func locationsPickedLocation(controller: LocationsViewController, latitude: NSNumber, longitude: NSNumber) {
+        addPin(lat: CLLocationDegrees(truncating: latitude), lng: CLLocationDegrees(truncating: longitude))
+        
+        controller.dismiss(animated: true, completion: nil)
+    }
     
     
     /* ----- TODO: add pin to the map */
-    
-    
+    func addPin(lat: CLLocationDegrees, lng: CLLocationDegrees){
+        let annotation = MKPointAnnotation()
+        let locationCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+        
+        annotation.coordinate = locationCoordinate
+        annotation.title = String(describing: lat)
+        
+        mapView.addAnnotation(annotation)
+    }
     
     /* ----- TODO: Customize mapview to add custom map notations */
-    
-    
-    
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        let reuseID = "annotation"
+//
+//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID)
+//
+//        if (annotationView == nil){
+//            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+//            annotationView!.canShowCallout = true
+//            annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+//        }
+//        let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
+//        imageView.image = pickedImage
+//
+//        return annotationView
+//    }
+  
     
     // Instantiate Image Picker and set delegate to this view controller
     func selectPhoto() {

@@ -22,9 +22,12 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="z6W-Pq-zZb">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiK-gz-8cx">
-                                <rect key="frame" x="155" y="672" width="64" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiK-gz-8cx">
+                                <rect key="frame" x="142.66666666666666" y="648" width="90" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="cdr-es-RSF"/>
+                                    <constraint firstAttribute="height" constant="90" id="yZ4-0f-AnT"/>
+                                </constraints>
                                 <state key="normal" image="camera"/>
                                 <connections>
                                     <action selector="onTapCameraBtn:" destination="ghP-Ww-KKQ" eventType="touchUpInside" id="4bq-eq-Pio"/>
@@ -34,16 +37,19 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ufw-e1-uLx" firstAttribute="top" secondItem="z6W-Pq-zZb" secondAttribute="bottom" constant="-34" id="91D-Ar-Q0q"/>
+                            <constraint firstItem="XiK-gz-8cx" firstAttribute="centerX" secondItem="Lxe-6f-KEH" secondAttribute="centerX" id="CAX-TJ-WF8"/>
                             <constraint firstAttribute="trailing" secondItem="z6W-Pq-zZb" secondAttribute="trailing" id="FOC-w9-U2T"/>
                             <constraint firstItem="z6W-Pq-zZb" firstAttribute="leading" secondItem="Lxe-6f-KEH" secondAttribute="leading" id="Pz8-Of-447"/>
                             <constraint firstItem="z6W-Pq-zZb" firstAttribute="top" secondItem="vrG-Wc-0bn" secondAttribute="bottom" constant="-88" id="Sfd-uu-WLd"/>
+                            <constraint firstItem="ufw-e1-uLx" firstAttribute="top" secondItem="XiK-gz-8cx" secondAttribute="bottom" constant="40" id="VGZ-lf-ueM"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="aPF-0T-Ydb"/>
                     <connections>
                         <outlet property="mapView" destination="z6W-Pq-zZb" id="zgF-uW-Bi2"/>
+                        <outlet property="photoButton" destination="XiK-gz-8cx" id="ACa-oZ-Aey"/>
                         <segue destination="WeT-38-qba" kind="push" identifier="fullImageSegue" id="B5X-dM-HfZ"/>
-                        <segue destination="eZf-Nb-6PU" kind="push" identifier="tagSegue" id="0Qu-7K-gQe"/>
+                        <segue destination="eZf-Nb-6PU" kind="modal" identifier="tagSegue" id="0Qu-7K-gQe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fxu-uv-tTR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -78,11 +84,11 @@
                         <viewControllerLayoutGuide type="bottom" id="nWs-YP-WbV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="erf-MR-Y0D">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BsJ-w6-1O2">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="778"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="d2g-cJ-R4d">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

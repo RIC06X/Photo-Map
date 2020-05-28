@@ -9,14 +9,16 @@
 import UIKit
 
 // ----- TODO: Add protocol to communicate with PhotoMapViewController
-
+protocol LocationsViewControllerDelegate: class {
+    func locationsPickedLocation(controller: LocationsViewController, latitude: NSNumber, longitude:NSNumber)
+}
 
 
 class LocationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     
     // ––––– TODO: Add delegate
-    
+    weak var delegate: LocationsViewControllerDelegate!
 
     
     
@@ -65,7 +67,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         /*-------TODO--------*/
         //Set the latitude and longitude of the venue and send it to the protocol
-        
+        delegate.locationsPickedLocation(controller: self, latitude: lat, longitude: lng)
         // Return to the PhotoMapViewController with the lat and lng of venue
         
         let latString = "\(lat)"
@@ -85,7 +87,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
         fetchLocations(searchBar.text!)
     }
     
-    func fetchLocations(_ query: String, near: String = "San Francisco") {
+    func fetchLocations(_ query: String, near: String = "Irvine") {
         let baseUrlString = "https://api.foursquare.com/v2/venues/search?"
         let queryString = "client_id=\(CLIENT_ID)&client_secret=\(CLIENT_SECRET)&v=20141020&near=\(near),CA&query=\(query)"
 
